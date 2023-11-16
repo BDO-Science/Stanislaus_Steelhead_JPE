@@ -1,0 +1,113 @@
+---
+title: "Juvenile Production Estimate Simulation Briefing"
+author: "Chase Ehlo"
+output: html_document
+date: "2023-11-16"
+---
+
+```{r setup, echo=FALSE, include=FALSE}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(ggridges)
+library(ggpubr)
+library(flextable)
+
+df <- read.csv('Files/Param_dist.csv')
+JPE_all <- read.csv('Files/JPE_sims.csv')
+params <- read.csv('Files/Params.csv')
+
+```
+```{r, echo = FALSE, include = FALSE}
+summary <- JPE_all %>% group_by(Approach) %>% summarize(Min = min(JPE), 
+                                                        Max = max(JPE), qtl_25 = quantile(JPE, 0.25), 
+                                                        qtl_75 = quantile(JPE, 0.75))
+x_max <- plyr::round_any(max(JPE_all$JPE), 5000, f = ceiling)
+parameters <- c('Fecundity', 'Egg to Fry Survival', 'Fry to Parr Survive', 'Parr to 1+ Survive and Remain', '1+ to 2+ Survive and Remain', '2+ to smolt survival')
+```
+## Methods
+
+In order to better illustrate the different levels of uncertainty discussed in the adult vs. juvenile JPE approaches, mock data were used to simulate each approach.  With the exception to preliminary data on egg to fry survival (draft report submitted by Cramer Sciences; Zeug et al. 2023), probabilities of life stage transitions included in each JPE calculation are largely unknown in the Stanislaus River.  Therefore, a literature search was conducted for ‘surrogate’ numbers to include in the simulation (Table 1).  While estimates for Steelhead were ideal, information on later life stages (i.e. Age 1+ residency and survival to Age 2+) was sparse; however, estimates on Atlantic Salmon, which exhibits diverse life-history traits similar to Steelhead, were found in the literature (Cunjak et al. 1998; Table 1).  Depending on the source, the estimates for each life stage were presented as a mean and standard error or a matrix of numbers, both of which were used to obtain the mean and standard deviation for each parameter.  These parameters were then used to generate a lognormal distribution of 1000 estimates for each parameter using functions built within R Statistical Software (v4.3.1; R Core Team 2023; Figure 1).
+
+
+Table 1. Summary of surrogate parameters found in the literature and used in JPE calculations.
+```{r, echo = FALSE}
+table <- cbind(parameters, params) %>% select(-2) %>% mutate(Source = c('Hodge et al. 2016', 'Zeug et al. 2023', 'Baxter 1997', 'Cunjack et al. 1998', 'Cunjack et al. 1998', 'Cunjack et al. 1998')) %>% rename('Parameter' = 1, 'Stan. Dev.' = 3)
+
+flextable(table) %>% width(width = c(2.5, 1.5, 1.5, 2), unit = "in") %>% align(align = c('left', 'center', 'center','center'), part = 'all')
+```
+In order to estimate JPE from the fecundity and probability estimates between each life stage, a starting number of 1000 redds was chosen.  Using this starting number, 200 simulations were first run to estimate a matrix of juvenile abundance estimates by randomly pulling estimates from the parameter distributions and multiplying Redd Number by Fecundity, Egg to Fry Survival, Fry to Parr Survival, and Parr to age 1+ survival respectively. For the adult approach, each estimate from the juvenile abundance matrix was multiplied by a randomly selected estimate within the parameter distributions for probability of age 1+ to 2+ survival and age 2+ to smolt survival respectively resulting in 200 JPE estimates.  For the juvenile approach, the 200 simulations were run once again where the median of the juvenile abundance matrix was multiplied by the a randomly selected estimate within the parameter distributions for probability of age 1+ to 2+ survival and age 2+ to smolt survival respectively resulting in 200 JPE estimates.  Finally, the data was visualized in a box and density plots to illustrate the variation between the two methods using R Statistical Software (v4.3.1; R Core Team 2023; Figure 2).
+
+```{r, fig.cap = 'Figure 1. Histograms illustrating distributions of parameters used to calculate JPEs for each simulation.', echo=FALSE, message=FALSE, warning=FALSE, fig.dim = c(7.5,4.5), fig.align='center'}
+df %>% rename('Egg to Fry Survival' = 2, 'Fry to Parr Survival' = 3, 
+                      'Parr to 1+ Survival' = 4, '1+ to 2+ Survival' = 5, 
+                      '2+ to smolt survival' = 6) %>% 
+  gather(key = 'Parameter', value = 'value', 1:6) %>% 
+  mutate(Parameter = factor(Parameter, levels = c('Fecundity', 'Egg to Fry Survival', 
+                                                  'Fry to Parr Survival', 'Parr to 1+ Survival', 
+                                                  '1+ to 2+ Survival', '2+ to smolt survival'))) %>%
+  ggplot(aes(x = value, fill = Parameter)) +
+  geom_histogram() + facet_wrap(~ Parameter, scales = 'free_x') +
+  labs(x = 'Value (unit depends on parameter)', y = 'Frequency') +
+  theme(legend.position = 'none',
+        plot.margin = margin(0.25,0.25,0.75,0.25, unit = 'cm'),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 8),
+        axis.title.x = element_text(margin=margin(t=12)),
+        axis.title.y = element_text(margin=margin(r=12)),
+        panel.spacing.x = unit(6, "mm"))
+```
+
+## Results
+As expected, there is increased variation in the adult approach compared to the juvenile approach.  For the adult approach, estimates range from approximately `r prettyNum(round(summary[1,2],0), big.mark = ',', scientific = FALSE)` to `r prettyNum(round(summary[1,3],0), big.mark = ',', scientific = FALSE)` individuals, with lower and upper quantiles between approximately `r prettyNum(round(summary[1,4],0), big.mark = ',', scientific = FALSE)` and `r prettyNum(round(summary[1,5],0), big.mark = ',', scientific = FALSE)` individuals.  For the juvenile approach, the estimates were much less variant and range from approximately `r prettyNum(round(summary[2,2],0), big.mark = ',', scientific = FALSE)` to `r prettyNum(round(summary[2,3],0), big.mark = ',', scientific = FALSE)`, with lower and upper quantiles between approximately `r prettyNum(round(summary[2,4],0), big.mark = ',', scientific = FALSE)` and `r prettyNum(round(summary[2,5],0), big.mark = ',', scientific = FALSE)` individuals.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+#boxplot to illustrate differences in two approaches
+jpe_graph <- ggplot(JPE_all, aes(x = Approach, y = JPE, fill = Approach)) + 
+  geom_boxplot(alpha = 0.5) +
+  theme(legend.position = 'none',
+        plot.margin = margin(0.75,0.25,0.5,0.25, unit = 'cm'),
+        axis.title = element_text(size = 16),
+        axis.text = element_text(size = 14),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(margin=margin(r=12)),
+        axis.text.x = element_blank()) +
+  scale_y_continuous(breaks = seq(0,x_max, if_else(x_max > 25000, 10000, 5000)), limits = c(0,x_max),
+                     labels = scales::comma) +
+  coord_flip()
+jpe_graph
+
+#density histogram to illustrate differences in two approaches
+hist_lognorm <- ggplot(JPE_all, aes(x = JPE, y = Approach, fill = 0.5 - abs(0.5 - stat(ecdf)))) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE, scale = 1) +
+  scale_fill_gradient(low = "white", high = "green4",
+                      name = "Tail Prob.") +
+  theme(plot.margin = margin(0,0.25,0.5,0.25, unit = 'cm'),
+        axis.title = element_text(size = 16),
+        axis.text = element_text(size = 14),
+        axis.title.x = element_text(margin=margin(t=12)),
+        axis.title.y = element_text(margin=margin(r=12)),
+        legend.position=c(.5,.85),
+        legend.direction = 'horizontal',
+        legend.box.background = element_rect(colour = "black")) +
+  scale_x_continuous(breaks = seq(0,x_max, if_else(x_max > 25000, 10000, 5000)), limits = c(0,x_max),
+                     labels = scales::comma)
+hist_lognorm
+```
+
+```{r, echo= FALSE, fig.dim = c(7.5,6), message=FALSE, fig.cap = 'Figure 2. Boxplot (top) and density curve (bottom) summarizing JPE calculations from the 200 simulations for each method', fig.align='center'}
+final <- ggarrange(jpe_graph, hist_lognorm, ncol = 1, nrow = 2, align = 'v')
+final
+```
+
+## References
+
+Baxter, J.S. 1997. Kispiox River Steelhead: Summary of Current Data and Status Review, 1997.  British Columbia Ministry of Environment, Lands, and Parks.  Skeena Fisheries Report SK-100, 83 pages.
+
+Cunjak, R.A. and J. Therrien. 1998. Inter-stage survival of wild juvenile Atlantic salmon, Salmo salar L. Fisheries Management and Ecology 5:209-223.
+
+Hodge, B.W., M.A. Wilzbach, W.G. Duffy, R.M. Quinones, and J.A. Hobbs. 2016. Life History Diversity in Klamath River Steelhead.  Transactions of the American Fisheries Society 145:227-238.
+
+R Core Team. 2023. R: A Language and Environment for Statistical Computing. R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
+
+Zeug, S., A. Brodsky, W. Thorpe, B. Flores, A. Constandache, S. Blankenship, and J. Weisenfeld. 2023. Oncorhynchus mykiss in anadromous waters of the Stanislaus River.  Draft report prepared for U.S. Bureau of Reclamation. 58 pages.
