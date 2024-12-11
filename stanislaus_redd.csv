@@ -1,0 +1,39 @@
+survey_date,survey_week,survey_section,survey_method,mark_color,riffle_assignment,redd_id,species,age,estimated_area_m2,estimated_area_m2_category,ambient_depth_cm,pot_length_cm,pot_width_cm,pot_depth_cm,tailspill_length_cm,tailspill_length_25percent_cm,tailspill_length_75percent_cm,estimated_pot_substrate,estimated_tailspill_substrate,estimated_ambient_substrate,ambient_velocity1,ambient_velocity2,average_velocity,distance_cover_m,distance_wet_edge,distance_centerline,fish_present,fish1_sex,fish1_estimated_size,fish2_sex,fish2_estimated_size,comments
+2/2/2021,1,1,hike,orange,C2,SH-0202-01,SH,2,NA,4-Feb,NA,93,95,NA,150,105,80,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+2/8/2021,2,1,hike,green,C2,SH-0208-01,SH,2,NA,2-Jan,NA,54,80,NA,105,40,35,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+2/9/2021,2,3,drift boat,green,M1,SH-0209-01,SH,2,NA,4-Feb,NA,55,110,NA,220,110,75,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+2/23/2021,4,2,hike,pink,G3,SH-0223-01,SH,2,NA,2-Jan,23,58,71,32,137,110,85,8,3.5,5,0.25,NA,0.25,0,2.9,1.05,N,NA,NA,NA,NA,Distance measurements taken in side channel
+3/8/2021,6,1,hike,blue,A1,SH-0308-01,SH,2,NA,2-Jan,42,45,74,54,120,94,129,5,2,7,0.75,NA,0.75,4.6,8.7,23.8,N,NA,NA,NA,NA,NA
+3/24/2021,8,3,drift boat,orange,K4,SH-0324-01,SH,2,NA,2-Jan,40,70,91,44,130,108,80,5,3,7,0.73,NA,0.73,2,3.2,10.1,N,NA,NA,NA,NA,NA
+3/25/2021,8,4,drift boat,red,Y3,PL-0317-01,PL,1,NA,4-Feb,80,38,36,82,210,100,70,5,3,4,0.65,0.68,0.665,4.2,6.6,33,Y,U,50,NA,NA,"First observed in week 7, measured week 8"
+3/25/2021,8,4,drift boat,red,Z1,PL-0325-01,PL,1,NA,<1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Y,M,50,F,40,"Observed week 8, unable to measure in week 9. GPS only."
+4/6/2021,10,3,drift boat,red,Q5,PL-0406-01,PL,2,NA,<1,58,36,48,62,66,52,36,4,6,7,0.68,NA,0.68,2.2,4.5,10,N,NA,NA,NA,NA,NA
+4/6/2021,10,3,drift boat,red,Q5,PL-0406-02,PL,2,NA,2-Jan,62,58,42,72,70,80,66,3,5,7,0.78,0.98,0.88,7.1,9.4,5.1,N,NA,NA,NA,NA,2 pots with a shared/merged tailspill
+4/6/2021,10,3,drift boat,red,Q5,PL-0406-02,PL,2,NA,2-Jan,62,34,32,74,70,80,66,3,5,7,0.78,0.98,0.88,7.1,9.4,5.1,N,NA,NA,NA,NA,2 pots with a shared/merged tailspill
+4/6/2021,10,3,drift boat,red,Y3,PL-0406-03,PL,1,NA,2-Jan,118,54,46,124,94,106,70,3,8,8,0.66,0.76,0.71,8.5,10.6,4.5,Y,M,60,F,50,NA
+4/6/2021,10,3,drift boat,green,R2,SH-0406-01,SH,2,NA,4-Feb,64,102,82,68,240,118,92,6,4,6,0.62,0.75,0.69,2.2,2.5,10.8,N,NA,NA,NA,NA,NA
+4/7/2021,10,1,hike,green,A4,SH-0407-01,SH,2,NA,4-Feb,26,80,70,32,126,116,96,9,5,8,0.75,NA,0.75,0,2.1,1.6,N,NA,NA,NA,NA,Measurements taken in side channel where redd was located
+4/13/2021,11,4,drift boat,red,Y2,PL-0413-01,PL,2,NA,2-Jan,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"High flow, unable to measure"
+4/21/2021,12,4,drift boat,red,X3,PL-0421-01,PL,2,NA,<1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"High flow, unable to measure"
+3/2/2022,9,4,boat,red,W3,PL-0302-01,PL,2,NA,2-Jan,90,76,66,98,92,50,30,6,3,4,NA,NA,NA,8.1,8.9,5.7,Y,U,NA,NA,NA,Flow meter not working
+3/2/2022,9,4,boat,red,X3,PL-0302-02,PL,2,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Flow too high/water too deep, no measurements"
+3/2/2022,9,4,boat,red,X3,PL-0302-03,PL,2,NA,<1,78,52,56,82,102,62,48,NA,NA,NA,NA,NA,NA,7.7,8.7,3.8,N,NA,NA,NA,NA,Flow meter not working
+3/16/2022,11,3,boat,red,S1,PL-0316-01,PL,1,NA,<1,58,24,26,72,52,30,20,2,5,6,0.76,NA,NA,7.9,11.6,0,Y,M,NA,F,NA,NA
+3/23/2022,12,4,boat,red,X1,PL-0323-01,PL,3,NA,<1,50,46,44,58,70,46,36,3,4,6,0.97,NA,NA,6.9,7.3,5.7,N,NA,NA,NA,NA,NA
+4/20/2022,16,4,boat,red,X3,PL-0420-01,PL,2,NA,<1,58,34,36,70,118,52,60,3,6,6,1.05,NA,NA,6.87,14.4,3.2,N,NA,NA,NA,NA,NA
+4/20/2022,16,4,boat,red,X3,PL-0420-02,PL,2,NA,2-Jan,56,46,48,68,112,66,74,3,6,6,1.07,NA,NA,6.47,15.1,2.5,N,NA,NA,NA,NA,NA
+1/31/2023,5,1,hike,orange,C2,SH-0131-01,SH,1,2.178,4-Feb,26,52,58,36,190,74,90,8,4,8,1.01,NA,1.01,0,6.3,4.95,Y,U,NA,NA,NA,NA
+2/7/2023,6,2,kayak,green,H5,SH-0207-01,SH,1,0.9048,<1,40,46,52,44,110,52,58,7,8,10,0.45,NA,0.45,0,3.5,4.9,Y,U,NA,U,NA,NA
+2/15/2023,7,2,boat,pink,G3,SH-0215-01,SH,2,1.092,2-Jan,32,56,54,42,100,70,64,5,3,5,0.72,NA,0.72,1.23,1.89,21.96,N,NA,NA,NA,NA,NA
+2/15/2023,7,2,boat,pink,G8,SH-0215-02,SH,3,1.392,2-Jan,60,44,58,64,130,80,64,5,5,7,0.95,NA,0.95,9.78,13.65,1.9,N,NA,NA,NA,NA,NA
+2/15/2023,7,2,boat,pink,G8,SH-0215-03,SH,3,3.0016,4-Feb,54,58,62,62,210,112,100,7,5,7,1.15,NA,1.15,5.82,12.31,2.29,N,NA,NA,NA,NA,NA
+2/15/2023,7,3,boat,pink,K2,SH-0215-04,SH,1,2.0664,4-Feb,40,62,52,50,184,84,76,7,5,7,1.07,NA,1.07,0,4.94,14.08,Y,U,NA,NA,NA,NA
+2/15/2023,7,3,boat,pink,K2,SH-0215-05,SH,2,3.2568,4-Feb,26,64,62,38,290,92,72,5,4,5,0.51,NA,0.51,0,3.34,15.78,N,NA,NA,NA,NA,NA
+2/21/2023,8,3,boat,blue,L1,SH-0221-01,SH,2,1.088,2-Jan,30,46,52,38,114,68,66,5,7,7,0.85,NA,0.85,10.6,4.21,4.81,N,NA,NA,NA,NA,NA
+2/21/2023,8,3,boat,blue,L1,SH-0221-02,SH,2,1.5744,2-Jan,40,46,48,44,146,82,78,5,7,7,0.92,NA,0.92,13.16,7.33,1.69,N,NA,NA,NA,NA,NA
+2/22/2023,8,4,boat,red,X2,PL-0222-01,PL,2,1.0064,2-Jan,50,52,54,60,96,68,52,3,7,7,0.86,NA,0.86,7,7.12,6.58,N,NA,NA,NA,NA,NA
+2/23/2023,8,1,hike,blue,A1,SH-0223-01,SH,2,1.0692,2-Jan,60,54,64,64,108,66,40,7,5,9,0.24,NA,0.24,0,1.91,1.97,N,NA,NA,NA,NA,NA
+2/23/2023,8,1,hike,blue,A1,SH-0223-02,SH,2,1.764,2-Jan,50,50,52,54,160,84,72,7,5,7,0.43,NA,0.43,2.27,2.85,4.59,N,NA,NA,NA,NA,NA
+2/23/2023,8,1,hike,blue,A1,SH-0223-03,SH,2,1.1952,2-Jan,30,62,72,36,104,60,32,7,5,7,0.67,NA,0.67,0,2.18,4.74,N,NA,NA,NA,NA,NA
+2/23/2023,8,1,hike,blue,A4,SH-0223-04,SH,2,2.3124,4-Feb,54,52,56,62,194,74,94,7,5,9,0.98,NA,0.98,3.57,9.21,3.46,N,NA,NA,NA,NA,NA
+4/18/2023,16,1,hike,orange,A1,SH-0418-01,SH,1,0.9548,<1,44,46,48,54,108,62,48,7,5,7,1.98,NA,1.98,2.17,3.8,0.46,Y,U,NA,U,NA,NA
