@@ -16,7 +16,9 @@ for (i in 1:nrow(params)) {
 }
 
 df[df > .99 & df < 10 | df <= 0] <- NA #assign NAs to any 'probabilities' >= 1 or < 0
-df <- df %>% na.omit() #get rid of NAs
+df <- df %>%
+  select(-1) %>%
+  na.omit() #get rid of NAs
 
 #user defined numbers
 sims <- 200 #number of simulations
@@ -92,27 +94,31 @@ final <- ggarrange(jpe_graph, hist_lognorm, ncol = 1, nrow = 2, align = 'v')
 final
 
 #graph of the parameter distributions
-dist <- df %>% rename('Egg to Fry Survival' = 2, 'Fry to Parr Survival' = 3, 
-                      'Parr to 1+ Survival' = 4, '1+ to 2+ Survival' = 5, 
-                      '2+ to smolt survival' = 6) %>% 
-  gather(key = 'Parameter', value = 'value', 1:6) %>% 
-  mutate(Parameter = factor(Parameter, levels = c('Fecundity', 'Egg to Fry Survival', 
+dist <- df %>% rename('Egg to Fry Survival' = 1, 'Fry to Parr Survival' = 2, 
+                      'Parr to 1+ Survival' = 3, '1+ to 2+ Survival' = 4, 
+                      '2+ to Smolt and Survive' = 5) %>% 
+  gather(key = 'Parameter', value = 'value', 1:5) %>% 
+  mutate(Parameter = factor(Parameter, levels = c('Egg to Fry Survival', 
                                                   'Fry to Parr Survival', 'Parr to 1+ Survival', 
-                                                  '1+ to 2+ Survival', '2+ to smolt survival'))) %>%
-  ggplot(aes(x = value, fill = Parameter)) +
-  geom_histogram() + facet_wrap(~ Parameter, scales = 'free_x') +
+                                                  '1+ to 2+ Survival', '2+ to Smolt and Survive'))) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(fill = 'steelblue3') + 
+  facet_wrap(~ Parameter, ncol = 2) +
+  labs(x = 'Probability', y = 'Frequency') +
+  theme_bw() +
   theme(legend.position = 'none',
         plot.margin = margin(0.25,0.25,0,0.25, unit = 'cm'),
-        axis.title = element_text(size = 12),
+        axis.title = element_text(size = 14),
         axis.text = element_text(size = 8),
         axis.title.x = element_text(margin=margin(t=12)),
         axis.title.y = element_text(margin=margin(r=12)),
+        strip.text = element_text(size = 12),
         panel.spacing.x = unit(6, "mm"))
 dist
 
 #save final plots
 ggsave(final, file = 'Graphs/final.png', unit = 'px', width = 2500, height = 2000)
-ggsave(dist, file = 'Graphs/dist.png', unit = 'px', width = 3000, height = 2000)
+ggsave(dist, file = 'Graphs/dist.png', unit = 'in', width = 7, height = 6)
 
 #save parameter distributions and JPE simulation estimates
 write.csv(JPE_all, file = 'Files/JPE_sims.csv', row.names = FALSE)
