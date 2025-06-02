@@ -15,21 +15,70 @@ library(nhdplusTools)
 library(elevatr)
 library(raster)
 library(exactextractr)
+library(deltamapr)
+library(ggpubr)
+library(terra)
+library(stars)
+library(geojsonio)
+library(ggspatial)
+library(tidyterra)
+
+# Read in the shapefile
+# Replace 'path_to_shapefile' with the actual path to your shapefile
+shapefile_path <- "california_watershed_shapefile/Data/cdfg_100k_2003_6.shp"
+california_watersheds <- st_read(shapefile_path) |>
+  st_zm(drop = TRUE, what = "ZM") |>
+  unnest(cols = c(NAME))
+
+# Create a vector of creek and river names to filter by
+creeks_rivers <- c("Sacramento River", "Feather River", "Yuba River", "Bear River", "American River", "Cosumnes River", "Mokelumne River", "Calaveras River", "Stanislaus River", "Tuolumne River", "Merced River", "San Joaquin River")
+
+# Use str_detect to filter the dataset based on partial string matches
+filtered_watersheds <- california_watersheds |>
+  filter(str_detect(NAME, paste(creeks_rivers, collapse = "|")))
+
+# Check the structure of the filtered object
+str(filtered_watersheds)
+
+# Filter the WW_Watershed dataset to only include the specified creeks and rivers
+filtered_watersheds <- california_watersheds |>
+  filter(NAME %in% creeks_rivers)
+
+crs_value <- st_crs(WW_Watershed)  # Set CRS to match one of your spatial objects
+
+filtered_watersheds <- st_transform(filtered_watersheds, crs_value)
+
+# Plot with ggplot2 and friends
+ggplot() +
+  geom_sf(data = WW_Delta, fill = "grey") +
+  #geom_sf(data = filtered_watersheds, fill = "grey") +
+  #geom_sf(data = WW_DBW, fill = "grey") +
+  #geom_sf(data = WW_Watershed, fill = "grey") +
+  scale_fill_viridis_c() +
+  labs(title = NULL,
+       fill = NULL) +
+  theme_pubr() +   labs_pubr(base_size = 14) +
+  theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
+  #coord_sf(xlim = c(-123, NULL), expand = FALSE) +  # Set x-axis limit
+  annotation_scale(location = "bl", width_hint = 0.5) +  # Optional scale bar
+  annotation_north_arrow(location = "tr", which_north = "true", 
+                         style = north_arrow_fancy_orienteering)  # Optional north
+#facet_wrap(~lyr)
 
 # Read shapefiles
-CA_flow <- st_read("rmrs-flowline_ca18_nsi/Flowline_CA18_NSI.shp")
+CA_flow <- st_read("data/rmrs-flowline_ca18_nsi/Flowline_CA18_NSI.shp")
 
 stan_flowline <- CA_flow |>
   filter(GNIS_NAME == "Stanislaus River")
 
-CA_points <- st_read("rmrs-predictionpoints_ca18_nsi/PredictionPoints_CA18_NSI.shp")
+CA_points <- st_read("data/rmrs-predictionpoints_ca18_nsi/PredictionPoints_CA18_NSI.shp")
 
 stan_points <- CA_points |>
   filter(GNIS_NAME == "Stanislaus River")
 
-stan_ref_points <- st_read("SSN_layers/StanRefPoints_final.shp")
-stan_flow_line <- st_read("SSN_layers/StanFlowLine_final.shp")
-snorkel <- read.csv("stanSnorkel 1.csv")
+stan_ref_points <- st_read("data/SSN_layers/StanRefPoints_final.shp")
+stan_flow_line <- st_read("data/SSN_layers/StanFlowLine_final.shp")
+snorkel <- read.csv("SSN/stanSnorkel 1.csv")
 
 # Filter and process snorkel data
 snorkel <- snorkel |>
@@ -283,7 +332,7 @@ ggplot() +
   # Add observation points to the plot
   geom_sf(
     data = stan_ssn$obs,
-    size = 1.7,
+    size = 1,
     aes(color = trout_100m)
   ) +
   coord_sf(datum = st_crs(stan_flow_line)) +
@@ -297,11 +346,25 @@ ggplot() +
   # Add prediction points to the plot
   geom_sf(
     data = stan_ssn$preds$preds,
-    size = 1.5,
+    size = 1,
     shape = 21,
-    fill = "white",
-    color = "dark grey"
-  ) 
+    fill = "black",
+    color = "red",
+    alpha = 0.5
+  ) +
+  geom_sf(data = WW_Delta, fill = "grey") +
+  #geom_sf(data = filtered_watersheds, fill = "grey") +
+  #geom_sf(data = WW_DBW, fill = "grey") +
+  #geom_sf(data = WW_Watershed, fill = "grey") +
+  scale_fill_viridis_c() +
+  labs(title = NULL,
+       fill = NULL) +
+  theme_pubr() +   labs_pubr(base_size = 14) +
+  theme(legend.title = element_blank(), axis.text.x = element_text(angle = 45, hjust = 1)) +
+  #coord_sf(xlim = c(-123, NULL), expand = FALSE) +  # Set x-axis limit
+  annotation_scale(location = "bl", width_hint = 0.5) +  # Optional scale bar
+  annotation_north_arrow(location = "tr", which_north = "true", 
+                         style = north_arrow_fancy_orienteering)  # Optional north
 
 ## Generate hydrologic distance matrices
 ssn_create_distmat(stan_ssn, predpts = "preds", overwrite = TRUE)

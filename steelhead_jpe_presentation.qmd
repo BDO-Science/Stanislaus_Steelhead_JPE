@@ -1,0 +1,167 @@
+---
+title: "Steelhead Juvenile Production Estimate (JPE) Using Spatial Stream Networks (SSN)" # The title of the presentation
+subtitle: "Estimating O. mykiss Abundance Across Central Valley Streams" # An optional subtitle for the presentation
+author: "Alexander Vaisvil" # The name of the author(s) of the presentation
+date: "01/27/2025" # Automatically inserts the current date in "Month Day, Year" format
+format: # Specifies the output format options for the presentation
+  pptx: # Indicates that the output will be a PowerPoint (.pptx) file
+    reference-doc: "Presentation.pptx" # Path to a custom PowerPoint template for consistent branding/styling
+    slide-level: 2 # Sets the heading level (##) at which new slides are created
+    toc: true # Adds a table of contents slide at the beginning of the presentation
+    toc-depth: 1 # Only include top-level headings
+    slide-number: true # Enables slide numbers on each slide
+    aspect-ratio: 16:9 # Sets the aspect ratio for the slides (e.g., widescreen)
+    fig-width: 5 # Default width (in inches) for figures included in the presentation
+    fig-height: 4 # Default height (in inches) for figures included in the presentation
+    fig-dpi: 300 # Sets the resolution (dots per inch) for figures to ensure clarity
+    keep-md: true # Retains the intermediate Markdown file generated during rendering
+    keep-source: true # Keeps the source file for debugging or re-rendering
+    highlight-style: "breezedark" # Specifies the syntax highlighting style for code chunks
+    output-file: "Steelhead JPE SSN.pptx" # The name of the generated PowerPoint file
+metadata: # Allows custom metadata fields for additional information
+  department: "Bureau of Reclamation" # Custom metadata: department name
+  project: "Steelhead JPE" # Custom metadata: project title
+---
+
+## **Introduction**
+
+### **Goal:**
+### - Aquire watershed scale O. mykiss abundance estimates to be used in JPE.
+### **Objectives:**
+    - To estimate steelhead abundance in unsampled locations of Central Valley streams containing O. mykiss using snorkel surveys and other fisheries sampling techniques.
+
+------------------------------------------------------------------------
+
+## **Study Area**
+
+### **Focus River:** Stanislaus River
+### **Geographic Context:**
+    -   Central Valley, California
+    -   Includes flowlines, prediction points, and sampled locations.
+
+------------------------------------------------------------------------
+
+## **Data Sources**
+
+### **Spatial Data:**
+
+    -   Flowlines (`Flowline_CA18_NSI.shp`)
+    -   Prediction Points (`PredictionPoints_CA18_NSI.shp`)
+
+### **Field Data:**
+
+    -   Snorkel survey data: Size classes, counts, and environmental covariates.
+
+### **Key Variables:**
+
+    -   Trout density (trout_100m)
+    -   Flow, slope, drainage area
+
+------------------------------------------------------------------------
+
+## **Methods: Data Preparation**
+
+### **Processing Snorkel Data:**
+    -   Filter by size class: Small (\<150 mm) and Medium (150--300 mm).
+    -   Calculate density: Counts per 100 meters.
+    -   Convert to spatial objects using lat/long.
+### **Check for Missing Data:**
+    -   Histograms, boxplots, and descriptive statistics.
+
+------------------------------------------------------------------------
+
+## **Spatial Stream Network Assembly**
+
+### **Steps:**
+    -   Convert flowlines to Local Stream Network (LSN) using `lines_to_lsn`.
+    -   Snap snorkel points to river edges with a 100m tolerance.
+    -   Compute upstream distances and hydrological flow variance (AFV).
+### **Visualization:**
+    -   Example map with flowlines, observation points, and prediction points.
+
+------------------------------------------------------------------------
+
+## **Modeling Approach**
+
+### **Model Types:**
+    -   Generalized Linear Models (GLMs) for trout density.
+    -   Zero-Inflated Negative Binomial (ZINB) for improved fit.
+    -   Bayesian SSN model for spatial and temporal effects.
+### **Covariates Used:**
+    -   Slope, drainage area, seasonal flow (Sep).
+
+------------------------------------------------------------------------
+
+## **Results: Model Performance**
+
+### **GLM Models:**
+    -   Compared multiple covariance structures (e.g., exponential taildown).
+    -   AIC values and model selection.
+### **ZINB Model:**
+    -   Improved fit for overdispersed data.
+    -   Visualized observed vs. fitted values.
+### **Bayesian Model:**
+    -   Incorporates spatial and temporal dependence.
+
+------------------------------------------------------------------------
+
+## **Validation**
+
+### **Leave-One-Out Cross Validation (LOOCV):**
+    -   Evaluated model predictive accuracy.
+### **Residual Analysis:**
+    -   Residual histograms.
+    -   Residual vs. fitted values.
+
+------------------------------------------------------------------------
+
+## **Predictions**
+
+### **Prediction Maps:**
+    -   Visualize predicted trout densities along the river network.
+    -   Highlight areas of high abundance.
+### **Uncertainty:**
+    -   Include confidence intervals in predictions.
+
+------------------------------------------------------------------------
+
+## **Discussion**
+
+### **Strengths:**
+    -   Integrates spatial and environmental data.
+    -   Predicts abundance at unsampled locations.
+### **Challenges:**
+    -   Handling zero-inflation and spatial autocorrelation.
+    -   Aligning environmental covariates across sites.
+
+------------------------------------------------------------------------
+
+## **Conclusion**
+
+### **Key Takeaways:**
+    -   SSN models effectively estimate O. mykiss abundance.
+    -   Bayesian methods provide robust uncertainty estimates.
+### **Future Directions:**
+    -   Expand to other Central Valley streams.
+    -   Incorporate additional covariates (e.g., temperature).
+
+------------------------------------------------------------------------
+
+## **Acknowledgments**
+
+### **Collaborators:**
+    -   Fisheries and aquatic science teams.
+### **Funding Agencies:**
+    -   \[List relevant funding bodies\].
+### **Special Thanks:**
+    -   \[Individuals or organizations\].
+
+------------------------------------------------------------------------
+
+## **Questions?**
+
+-   Open floor for audience questions.
+
+------------------------------------------------------------------------
+
+Let me know if you'd like this content converted into Quarto syntax or need specific diagrams or tables prepared!
